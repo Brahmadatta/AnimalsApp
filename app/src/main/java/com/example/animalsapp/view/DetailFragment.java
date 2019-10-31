@@ -24,8 +24,6 @@ import butterknife.ButterKnife;
  */
 public class DetailFragment extends Fragment {
 
-    @BindView(R.id.detailFAB)
-    FloatingActionButton detailFab;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -43,14 +41,4 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        detailFab.setOnClickListener(view1 -> {
-
-            NavDirections action = DetailFragmentDirections.actionGoToList();
-            Navigation.findNavController(view1).navigate(action);
-
-        });
-    }
 }
