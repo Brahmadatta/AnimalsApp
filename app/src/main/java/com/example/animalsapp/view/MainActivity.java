@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //having the back icon with this code.
+
     @Override
     public boolean onSupportNavigateUp() {
         return NavigationUI.navigateUp(mNavController,(DrawerLayout) null);
