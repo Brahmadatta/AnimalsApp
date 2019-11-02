@@ -10,6 +10,10 @@ public class AnimalModel {
     public String lifeSpan;
     public String imageUrl;
 
+    public AnimalModel(String name){
+        this.name = name;
+    }
+
 }
 
 class Taxonomy{
