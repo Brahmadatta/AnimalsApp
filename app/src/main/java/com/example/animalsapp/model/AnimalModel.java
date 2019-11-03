@@ -1,13 +1,19 @@
 package com.example.animalsapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AnimalModel {
 
     public String name;
-    public Taxonomy mTaxonomy;
+    public Taxonomy taxonomy;
     public String location;
-    public Speed mSpeed;
+    public Speed speed;
     public String diet;
+
+    @SerializedName("lifespan")
     public String lifeSpan;
+
+    @SerializedName("image")
     public String imageUrl;
 
     public AnimalModel(String name){
