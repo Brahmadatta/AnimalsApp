@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animalsapp.R;
 import com.example.animalsapp.model.AnimalModel;
+import com.example.animalsapp.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.An
 
         ImageView animalImage = holder.itemView.findViewById(R.id.animalImage);
         TextView animalName = holder.itemView.findViewById(R.id.animalName);
+
+        Util.loadImage(animalImage,animalList.get(position).imageUrl,Util.getProgressDrawable(animalImage.getContext()));
 
         animalName.setText(animalList.get(position).name);
 
