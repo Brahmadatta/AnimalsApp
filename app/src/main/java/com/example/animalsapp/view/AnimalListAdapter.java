@@ -50,7 +50,7 @@ public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.An
         animalName.setText(animalList.get(position).name);
 
         animalLayout.setOnClickListener(view -> {
-            NavDirections action = ListFragmentDirections.actionGoToDetails();
+            NavDirections action = ListFragmentDirections.actionGoToDetails(animalList.get(position));
             Navigation.findNavController(view).navigate(action);
 
         });
