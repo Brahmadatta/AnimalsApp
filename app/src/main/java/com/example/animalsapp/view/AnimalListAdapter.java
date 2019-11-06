@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.animalsapp.R;
@@ -40,10 +43,17 @@ public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.An
 
         ImageView animalImage = holder.itemView.findViewById(R.id.animalImage);
         TextView animalName = holder.itemView.findViewById(R.id.animalName);
+        ConstraintLayout animalLayout = holder.itemView.findViewById(R.id.animalLayout);
 
         Util.loadImage(animalImage,animalList.get(position).imageUrl,Util.getProgressDrawable(animalImage.getContext()));
 
         animalName.setText(animalList.get(position).name);
+
+        animalLayout.setOnClickListener(view -> {
+            NavDirections action = ListFragmentDirections.actionGoToDetails();
+            Navigation.findNavController(view).navigate(action);
+
+        });
 
     }
 
