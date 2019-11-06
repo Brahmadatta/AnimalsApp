@@ -107,7 +107,8 @@ public class ListFragment extends Fragment {
             listEror.setVisibility(View.GONE);
             loadingView.setVisibility(View.GONE);
             animalList.setVisibility(View.GONE);
-            mListViewModel.refresh();
+            //mListViewModel.refresh();
+            mListViewModel.hardRefresh();
             mSwipeRefreshLayout.setRefreshing(false);
         });
     }

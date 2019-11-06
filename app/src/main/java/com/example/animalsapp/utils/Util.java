@@ -1,7 +1,6 @@
 package com.example.animalsapp.utils;
 
 import android.content.Context;
-import android.media.Image;
 import android.widget.ImageView;
 
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable;

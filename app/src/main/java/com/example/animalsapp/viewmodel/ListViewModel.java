@@ -1,11 +1,16 @@
 package com.example.animalsapp.viewmodel;
 
+import android.app.Application;
+import android.widget.Toast;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.animalsapp.model.AnimalApiService;
 import com.example.animalsapp.model.AnimalModel;
 import com.example.animalsapp.model.ApiKeyModel;
+import com.example.animalsapp.utils.SharedPreferenceHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListViewModel extends ViewModel {
+public class ListViewModel extends AndroidViewModel {
 
     private AnimalApiService mAnimalApiService = new AnimalApiService();
 
@@ -25,9 +30,30 @@ public class ListViewModel extends ViewModel {
     public MutableLiveData<Boolean> loadError = new MutableLiveData<Boolean>();
     public MutableLiveData<Boolean> loading = new MutableLiveData<Boolean>();
 
+    private SharedPreferenceHelper prefs;
+
+    private Boolean invalidApiKey = false;
+
+    public ListViewModel(Application application){
+        super(application);
+        prefs = new SharedPreferenceHelper(application);
+    }
+
 
     public void refresh() {
         loading.setValue(true);
+        invalidApiKey = false;
+        String key = prefs.getApiKey();
+        if (key == null || key.equals("")){
+            getKey();
+        }else {
+            getAnimals(key);
+        }
+
+    }
+
+    public void hardRefresh(){
+        loading.setValue(false);
         getKey();
     }
 
@@ -46,6 +72,7 @@ public class ListViewModel extends ViewModel {
                                     loadError.setValue(true);
                                     loading.setValue(false);
                                 }else {
+                                    prefs.saveApiKey(key.key);
                                     getAnimals(key.key);
                                 }
                             }
@@ -79,9 +106,15 @@ public class ListViewModel extends ViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
-                        loading.setValue(false);
-                        loadError.setValue(true);
+                        if (!invalidApiKey){
+                            invalidApiKey = true;
+                            getKey();
+                        }else {
+                            e.printStackTrace();
+                            loading.setValue(false);
+                            loadError.setValue(true);
+                        }
+
                     }
                 })
 
