@@ -7,13 +7,19 @@
         <variable
             name="animal"
             type="com.example.animalsapp.model.AnimalModel" />
-        
+
+        <variable
+            name="listener"
+            type="com.example.animalsapp.view.AnimalClickListener" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/animalLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{listener::onCLick}"
+        android:tag="@{animal.name}"
         android:orientation="vertical">
 
         <ImageView

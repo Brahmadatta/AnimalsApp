@@ -21,7 +21,7 @@ import com.example.animalsapp.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder>{
+public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.AnimalViewHolder> implements AnimalClickListener{
 
     private ArrayList<AnimalModel> animalList = new ArrayList<>();
 
@@ -44,31 +44,24 @@ public class AnimalListAdapter extends RecyclerView.Adapter<AnimalListAdapter.An
     @Override
     public void onBindViewHolder(@NonNull AnimalViewHolder holder, int position) {
 
-
-        /*TextView animalName = holder.itemView.findViewById(R.id.animalName);
-        animalName.setText(animalList.get(position).name);*/
-
-
-//        ImageView animalImage = holder.itemView.findViewById(R.id.animalImage);
-//        ConstraintLayout animalLayout = holder.itemView.findViewById(R.id.animalLayout);
-//
-//        Util.loadImage(animalImage,animalList.get(position).imageUrl,Util.getProgressDrawable(animalImage.getContext()));
-//
-//
-//
-//        animalLayout.setOnClickListener(view -> {
-//            NavDirections action = ListFragmentDirections.actionGoToDetails(animalList.get(position));
-//            Navigation.findNavController(view).navigate(action);
-//
-//        });
-
         holder.itemview.setAnimal(animalList.get(position));
+        holder.itemview.setListener(this);
 
     }
 
     @Override
     public int getItemCount() {
         return animalList.size();
+    }
+
+    @Override
+    public void onCLick(View v) {
+            for (AnimalModel animalModel : animalList){
+                if (v.getTag().equals(animalModel.name)){
+                    NavDirections action = ListFragmentDirections.actionGoToDetails(animalModel);
+                    Navigation.findNavController(v).navigate(action);
+                }
+            }
     }
 
     class AnimalViewHolder extends RecyclerView.ViewHolder{

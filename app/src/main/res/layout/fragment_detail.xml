@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="animal"
+            type="com.example.animalsapp.model.AnimalModel" />
+
+        <variable
+            name="palette"
+            type="com.example.animalsapp.model.AnimalPalette" />
+
+    </data>
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/animalLinearLayout"
     android:gravity="center_horizontal"
+    android:background="@{palette.color}"
     tools:context=".view.DetailFragment">
 
 
@@ -15,6 +30,7 @@
         android:scaleType="center"
         android:minHeight="200dp"
         android:id="@+id/animalImage"
+        android:imageurl="@{animal.imageUrl }"
         />
 
     <TextView
@@ -22,14 +38,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/animalName"
         android:layout_margin="4dp"
-        android:text="Animal Name"
+        android:text="@{animal.name}"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/animalLocation"
-        android:text="Animal Location"
+        android:text="@{animal.location}"
         android:layout_margin="4dp"/>
 
 
@@ -37,17 +53,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/animalLifeSpan"
-        android:text="Animal LifeSpan"
+        android:text="@{animal.lifeSpan}"
         android:layout_margin="4dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/animalDiet"
-        android:text="Animal Diet"
+        android:text="@{animal.diet}"
         android:layout_margin="4dp"/>
 
 
 
 
 </LinearLayout>
+</layout>
