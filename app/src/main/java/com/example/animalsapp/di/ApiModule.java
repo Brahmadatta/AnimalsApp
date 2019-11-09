@@ -1,6 +1,7 @@
 package com.example.animalsapp.di;
 
 import com.example.animalsapp.model.AnimalApi;
+import com.example.animalsapp.model.AnimalApiService;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,5 +23,10 @@ public class ApiModule {
              .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
              .build()
              .create(AnimalApi.class);
+    }
+
+    @Provides
+    public AnimalApiService getProviedAnimalApiService(){
+        return new AnimalApiService();
     }
 }

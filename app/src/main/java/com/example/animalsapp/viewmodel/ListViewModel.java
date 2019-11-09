@@ -7,6 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.animalsapp.di.DaggerApiComponent;
+import com.example.animalsapp.di.DaggerViewModelComponent;
 import com.example.animalsapp.model.AnimalApiService;
 import com.example.animalsapp.model.AnimalModel;
 import com.example.animalsapp.model.ApiKeyModel;
@@ -15,6 +17,8 @@ import com.example.animalsapp.utils.SharedPreferenceHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
@@ -22,7 +26,9 @@ import io.reactivex.schedulers.Schedulers;
 
 public class ListViewModel extends AndroidViewModel {
 
-    private AnimalApiService mAnimalApiService = new AnimalApiService();
+
+    @Inject
+    AnimalApiService mAnimalApiService;
 
     private CompositeDisposable mDisposable = new CompositeDisposable();
 
@@ -37,6 +43,7 @@ public class ListViewModel extends AndroidViewModel {
     public ListViewModel(Application application){
         super(application);
         prefs = new SharedPreferenceHelper(application);
+        DaggerViewModelComponent.create().inject(this);
     }
 
 
