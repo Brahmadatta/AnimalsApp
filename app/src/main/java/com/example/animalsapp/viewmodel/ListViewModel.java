@@ -7,8 +7,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.animalsapp.di.AppModule;
 import com.example.animalsapp.di.DaggerApiComponent;
 import com.example.animalsapp.di.DaggerViewModelComponent;
+import com.example.animalsapp.di.TypeOfContext;
 import com.example.animalsapp.model.AnimalApiService;
 import com.example.animalsapp.model.AnimalModel;
 import com.example.animalsapp.model.ApiKeyModel;
@@ -24,6 +26,8 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.example.animalsapp.di.TypeOfContext.CONTEXT_APP;
+
 public class ListViewModel extends AndroidViewModel {
 
 
@@ -36,14 +40,18 @@ public class ListViewModel extends AndroidViewModel {
     public MutableLiveData<Boolean> loadError = new MutableLiveData<Boolean>();
     public MutableLiveData<Boolean> loading = new MutableLiveData<Boolean>();
 
-    private SharedPreferenceHelper prefs;
+    @Inject
+    @TypeOfContext(CONTEXT_APP)
+    SharedPreferenceHelper prefs;
 
     private Boolean invalidApiKey = false;
 
     public ListViewModel(Application application){
         super(application);
-        prefs = new SharedPreferenceHelper(application);
-        DaggerViewModelComponent.create().inject(this);
+        DaggerViewModelComponent.builder()
+                .appModule(new AppModule(getApplication()))
+                .build()
+                .inject(this);
     }
 
 
