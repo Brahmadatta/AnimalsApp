@@ -98,6 +98,46 @@ public class ListViewModelTest {
         Assert.assertEquals(false,mListViewModel.loading.getValue());
     }
 
+    @Test
+    public void getKeySuccess(){
+        Mockito.when(prefs.getApiKey()).thenReturn(null);
+
+        ApiKeyModel apikey = new ApiKeyModel("OK",key);
+        Single keySingle = Single.just(apikey);
+
+        Mockito.when(animalService.getApiKey()).thenReturn(keySingle);
+
+        AnimalModel animalModel = new AnimalModel("cow");
+        ArrayList<AnimalModel> animalList = new ArrayList<>();
+        animalList.add(animalModel);
+
+
+        Single testSingle = Single.just(animalList);
+        Mockito.when(animalService.getAnimals(key)).thenReturn(testSingle);
+
+        mListViewModel.refresh();
+
+        Assert.assertEquals(1,mListViewModel.animals.getValue().size());
+        Assert.assertEquals(false,mListViewModel.loadError.getValue());
+        Assert.assertEquals(false,mListViewModel.loading.getValue());
+
+    }
+
+    @Test
+    public void getKeyFailure(){
+        Mockito.when(prefs.getApiKey()).thenReturn(null);
+
+        Single keySingle = Single.error(new Throwable());
+
+        Mockito.when(animalService.getApiKey()).thenReturn(keySingle);
+
+        mListViewModel.refresh();
+
+        Assert.assertEquals(null,mListViewModel.animals.getValue());
+        Assert.assertEquals(false,mListViewModel.loading.getValue());
+        Assert.assertEquals(true,mListViewModel.loadError.getValue());
+    }
+
     @Before
     public void setupRxSchedulers(){
 
