@@ -8,6 +8,7 @@ import com.example.animalsapp.di.AppModule;
 import com.example.animalsapp.di.DaggerViewModelComponent;
 import com.example.animalsapp.model.AnimalApiService;
 import com.example.animalsapp.model.AnimalModel;
+import com.example.animalsapp.model.ApiKeyModel;
 import com.example.animalsapp.utils.SharedPreferenceHelper;
 import com.example.animalsapp.viewmodel.ListViewModel;
 
@@ -76,6 +77,25 @@ public class ListViewModelTest {
         Assert.assertEquals(false,mListViewModel.loadError.getValue());
         Assert.assertEquals(false,mListViewModel.loading.getValue());
 
+    }
+
+    @Test
+    public void getAnimalFailure(){
+        Mockito.when(prefs.getApiKey()).thenReturn(key);
+
+        Single testSingle = Single.error(new Throwable());
+
+        Single keySingle = Single.just(new ApiKeyModel("OK",key));
+
+        Mockito.when(animalService.getAnimals(key)).thenReturn(testSingle);
+
+        Mockito.when(animalService.getApiKey()).thenReturn(keySingle);
+
+        mListViewModel.refresh();
+
+        Assert.assertEquals(null,mListViewModel.animals.getValue());
+        Assert.assertEquals(true,mListViewModel.loadError.getValue());
+        Assert.assertEquals(false,mListViewModel.loading.getValue());
     }
 
     @Before
